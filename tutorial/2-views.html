@@ -26,15 +26,22 @@ var Comment = Backbone.Model.extend({
   initialize: function(message) {
     /* Set the initial values for `votes` to 0 and `message` to the message.
      * Remember to use setters when working with attributes! */
+     this.set('message', message);
+     this.set('votes', 0);
+
   },
   votes: function() {
     /* Return the votes attribute on this model.
      * Remember to use a getter when working with attributes! */
+     return this.get('votes')
   },
   upvote: function(){
     // Set the `votes` attribute to the current vote count plus one.
-  }
+    return this.set('votes', this.get('votes') + 1);  },
   // Add a downvote function; don't forget the comma above.
+  downvote: function () {
+    return this.set('votes', this.get('votes') - 1);
+  }
 });
 
 /* - Backbone VIEW ------------------------------------------------------------
@@ -115,6 +122,7 @@ var CommentView = Backbone.View.extend({
      * so we need to return the html in order to append it to the page.
      */
   }
+
 });
 
 // That's about it! Let's take it for a spin:
@@ -137,7 +145,7 @@ var commentView = new CommentView({ model: comment });
  */
 
 // Append the view to the page. This is why we returned html from `render`:
-// $('body').append(commentView.render());
+ $('body').append(commentView.render());
 
 /* The number of votes should be 0.
  * We set that as the initial default value in the comment model.

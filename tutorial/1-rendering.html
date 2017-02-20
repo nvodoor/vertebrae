@@ -25,6 +25,7 @@ var renderSomethingOnThePage = function(message) {
    * This also allows us to space out the html as we're used to,
    * with indents to make it easier to read.
    */
+   console.log(message);
   var html = [
     '<div>',
       '<span>',
@@ -101,8 +102,16 @@ var Message = Backbone.Model.extend({
      * Putting it into the initialize function let's us be sure that
      * all models that are created will have event listeners on them.
      */
-    this.on(YOUR CODE HERE);
-    /* It is your turn to write the event handler.
+  this.on('change',
+  function(/* this event holds information about the change: */ e) {
+    // Let ourselves know that something was changed:
+    renderSomethingOnThePage(e.attributes.message);
+    console.info('Something in this tweet model was changed!');
+
+    // Write code to log the changed attribute:
+    console.log(this.changed);
+  }
+);    /* It is your turn to write the event handler.
      *
      * Make an event listener that will listen for a `change` in this model's
      * message attribute, then call the method we defined above
@@ -134,13 +143,14 @@ var Message = Backbone.Model.extend({
  *
  * Try it yourself, then check out the answer at the bottom of this script.
  */
+ `myNewMessage.alertThisMessage();`
 
 
 // Let's try it out: 'instantiate' an instance of the class defined above:
 var myNewMessage = new Message();
 
 // ...and then make a change on that model to see it render
-myNewMessage.set({message: 'someMessage'});
+myNewMessage.set('message', 'someMessage');
 
 
 /* Once the model is rendering on the `change` event, move on to step 3!
